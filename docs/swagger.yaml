@@ -1,0 +1,544 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: APIs Base Project
+  description: |
+    API document for app
+    # Base URL:
+    http://cms-base.yez.vn/api
+    # Status header response code:
+    500 - Internal Server Error
+    401 - Unauthorized. Token invalid
+    200 - OK
+    404 - Not Found
+  # schemes:
+#    - http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+  Token:
+    type: apiKey
+    name: token
+    in: query
+
+paths:
+  /register:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Tạo tài khoản hệ thống"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "type"
+        in: "formData"
+        description: "phone | email"
+        required: false
+        type: "string"
+      - name: "name"
+        in: "formData"
+        description: "Họ tên"
+        required: true
+        type: "string"
+      - name: "phone"
+        in: "formData"
+        description: "Số điện thoại"
+        required: false
+        type: "number"
+      - name: "email"
+        in: "formData"
+        description: "Email"
+        required: false
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Mật khẩu"
+        required: true
+        type: "string"
+      - name: "password_confirmation"
+        in: "formData"
+        description: "xác nhận password"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: |
+            Register successful:
+          examples:
+            Register successful:
+              code: 200
+              message: "Register Successfully"
+              data:
+                token: "fgdhdfhdhh....."
+                user:
+                  id: 1
+                  name: "admin"
+                  phone: 098989879
+                  email: "nguyen@gmail.com"
+        404:
+          description: |
+            Register Fail:
+  /login-social:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Đăng nhập bằng FB/GG"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: 'social_token'
+        in: "formData"
+        description: "id của social"
+        required: true
+        type: "string"
+      - name: 'social_type'
+        in: "formData"
+        description: "Type social: 1 facebook, 2 google"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: |
+            Login successful:
+          examples:
+            Login successful:
+              code: 200
+              message: "Login successfully"
+              data:
+                token: "dgdgdgd............"
+                user:
+                  id: 1
+                  name: "admin"
+                  phone: 098989879
+                  email: "nguyen@gmail.com"
+        404:
+          description: "Token not valid"
+  /login-account:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Đăng nhập tài khoản bằng email"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "formData"
+        description: "Username"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Mật khẩu"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: |
+            Login successful:
+          examples:
+            Login successful:
+              code: 200
+              message: "Login successfully"
+              data:
+                token: "dgdgdgd............"
+                user:
+                  id: 1
+                  name: "admin"
+                  phone: 098989879
+                  email: "nguyen@gmail.com"
+        404:
+          description: "Token not valid"
+  /login-phone:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Đăng nhập tài khoản bằng số điện thoại"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "phone"
+        in: "formData"
+        description: "Số điện thoại"
+        required: true
+        type: "number"
+      - name: 'password'
+        in: "formData"
+        description: "Mật khẩu"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: |
+            Login successful:
+          examples:
+            Login successful:
+              code: 200
+              message: "Login successfully"
+              data:
+                token: "dgdgdgd............"
+                user:
+                  id: 1
+                  name: "admin"
+                  phone: 098989879
+                  email: "nguyen@gmail.com"
+        404:
+          description: "Token not valid"
+  /check-phone:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Check số điện thoại đã có hay chưa"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "phone"
+        in: "formData"
+        description: "Số điện thoại"
+        required: true
+        type: "string"
+      responses:
+        425:
+          description: |
+            Phone exist:
+          examples:
+            Check phone successful:
+              code: 425
+              message: "Phone exist"
+        426:
+          description: |
+            Check phone successful:
+          examples:
+            Phone not exist:
+              code: 426
+              message: "Phone not exist"
+  /forgot-password:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Quên mật khẩu"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "phone"
+        in: "formData"
+        description: "Số điện thoại"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "Mật khẩu mới"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: |
+            Change Password Successful:
+          examples:
+            Change Password Successful:
+              code: 200
+              message: "Change Password Successful"
+        432:
+          description: |
+            User not exist:
+          examples:
+            User not exist:
+              code: 432
+              message: "User not exist"
+  /category-news:
+    get:
+      tags:
+      - "Category News"
+      summary: "Danh sách danh mục"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: |
+            Successful:
+          examples:
+            Successful:
+              code: 200
+              message: "Successful"
+              data:
+                category: [
+                  {
+                    "id": 1,
+                    "name": "Jacky Lesch IV"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Elissa Frami MD"
+                  },
+                  {
+                    "id": 3,
+                    "name": "Candida Murazik"
+                  },
+                  {
+                    "id": 4,
+                    "name": "Dr. Junior Schaefer"
+                  },
+                  {
+                    "id": 5,
+                    "name": "Leopoldo Champlin"
+                  }
+                ]
+  /news:
+    get:
+      tags:
+      - "News"
+      summary: "Danh sách tin tức"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "page"
+        in: "query"
+        description: "Trang 0,1,2,3..."
+        required: false
+        type: "number"
+      - name: 'limit'
+        in: "query"
+        description: "Giới hạn lấy: nếu ko truyền sẽ lấy mặc định theo server"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: |
+            Successful:
+          examples:
+            Successful:
+              code: 200
+              message: "Successful"
+              data:
+                news: [
+                  {
+                    "id": 1,
+                    "title": "Which way?', holding her hand in her haste, she.",
+                    "category": {
+                      "id": 1,
+                      "name": "Jacky Lesch IV"
+                    },
+                    "image": "https://lorempixel.com/640/480/?55640",
+                    "description": "Alice heard the Queen's ears--' the Rabbit came near her, about the right size, that it signifies much,' she said these words her foot slipped, and in a sort of idea that they were gardeners, or.",
+                    "created_at": "2019-07-06 03:00:52"
+                  },
+                  {
+                    "id": 2,
+                    "title": "HIS time of life. The King's argument was, that.",
+                    "category": {
+                      "id": 1,
+                      "name": "Jacky Lesch IV"
+                    },
+                    "image": "https://lorempixel.com/640/480/?91252",
+                    "description": "Magpie began wrapping itself up and leave the court; but on second thoughts she decided to remain where she was, and waited. When the procession moved on, three of the room. The cook threw a.",
+                    "created_at": "2019-07-06 03:00:52"
+                  }
+                ]
+  /news/{id}:
+    get:
+      tags:
+      - "News"
+      summary: "Chi tiết tin tức"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id tin tức"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: |
+            Successful:
+          examples:
+            Successful:
+              code: 200
+              message: "Successful"
+              data:
+                news: {
+                  "id": 1,
+                  "title": "Which way?', holding her hand in her haste, she.",
+                  "category": {
+                    "id": 1,
+                    "name": "Jacky Lesch IV"
+                  },
+                  "image": "https://lorempixel.com/640/480/?55640",
+                  "description": "Alice heard the Queen's ears--' the Rabbit came near her, about the right size, that it signifies much,' she said these words her foot slipped, and in a sort of idea that they were gardeners, or.",
+                  "created_at": "2019-07-06 03:00:52"
+                }
+        404:
+          description: |
+            New not found:
+          examples:
+            New not found:
+              code: 404
+              message: "New not found"
+  /category-news/{id}/news:
+    get:
+      tags:
+      - "Category News"
+      summary: "Danh sách tin tức của danh mục"
+      operationId: ""
+      consumes:
+      - "application/x-www-form-urlencoded"
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id danh  mục"
+        required: true
+        type: "number"
+      - name: "limit"
+        in: "query"
+        description: "Giới hạn trả về, ko truyền sẽ lấy mặc định của server"
+        required: false
+        type: "number"
+      - name: "page"
+        in: "query"
+        description: "Số trang: 0,1,2,3..."
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: |
+            Successful:
+          examples:
+            Successful:
+              code: 200
+              message: "Successful"
+              data:
+                news: [
+                  {
+                    "id": 1,
+                    "title": "Which way?', holding her hand in her haste, she.",
+                    "category": {
+                      "id": 1,
+                      "name": "Jacky Lesch IV"
+                    },
+                    "image": "https://lorempixel.com/640/480/?55640",
+                    "description": "Alice heard the Queen's ears--' the Rabbit came near her, about the right size, that it signifies much,' she said these words her foot slipped, and in a sort of idea that they were gardeners, or.",
+                    "created_at": "2019-07-06 03:00:52"
+                  },
+                  {
+                    "id": 2,
+                    "title": "HIS time of life. The King's argument was, that.",
+                    "category": {
+                      "id": 1,
+                      "name": "Jacky Lesch IV"
+                    },
+                    "image": "https://lorempixel.com/640/480/?91252",
+                    "description": "Magpie began wrapping itself up and leave the court; but on second thoughts she decided to remain where she was, and waited. When the procession moved on, three of the room. The cook threw a.",
+                    "created_at": "2019-07-06 03:00:52",
+                    "content": "I don't believe there's an atom of meaning in it,' but none of my own. I'm a hatter.' Here the Queen was silent. The King and the fan, and skurried away into the garden, where Alice could speak again. In a minute or two, they began running about in all directions, 'just like a writing-desk?' 'Come, we shall get on better.' 'I'd rather finish my tea,' said the Dormouse; '--well in.' This answer."
+                  }
+                ]
+        404:
+          description: |
+            Category news not found:
+          examples:
+            Category news not found:
+              code: 404
+              message: "Category news not found"
+  /upload/image:
+    post:
+      tags:
+      - "Upload"
+      summary: "Upload image"
+      operationId: "upload-image"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "images"
+        in: "formData"
+        description: "List images file. File Extension: jpg,png,gif,bmp,tif"
+        required: true
+        type: array
+        items:
+          type: string
+          format: binary
+      responses:
+        200:
+          description: "Upload successful"
+          examples:
+            application/json:
+              code: 200
+              data:
+                images:
+                - URL 1
+                - URL 2
+                - URL 3
+        422:
+          description: "Validate Fails"
+          examples:
+            application/json:
+              code: 422
+              messsages:
+              - Message error 1
+              - Message error 1
+        400:
+          description: "Upload fails"
+          examples:
+            application/json:
+              code: 400
+              messages:
+              - "Upload fails"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
+# Added by API Auto Mocking Plugin
+# host: localhost:8000
+# basePath: /
+# schemes:
+# - http
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /thangbeo/register_user/1.0.0
+schemes:
+- https
+- http
+# Added by API Auto Mocking Plugin
+# basePath: /katakurii/App-nails/1.0.0
+# Added by API Auto Mocking Plugin
+basePath: /Vinsofts9/giupviec-xyz/1.0.0

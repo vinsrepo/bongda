@@ -1,0 +1,76 @@
+
+.tb-avatar {
+    width: 50px;
+}
+.tb-avatar img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 0;
+    border-radius: 100%;
+}
+.tb-btn-search {
+    margin-top: 26px;
+}
+span.help-block {
+	color: #d82f2f;
+}
+div.alert-message {
+	color: #397f1d;
+	padding-bottom: 15px;
+}
+.fade.in {
+    opacity: 1;
+}
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events:all;
+    max-width: 720px;
+    -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+.modal-content button.close {
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    -webkit-appearance: none;
+    right: 10px;
+    position: absolute;
+    top: 10px;
+    margin: 0px;
+}
+.modal-content h3 {
+    width: 100%;
+    text-align: left;
+}
+.modal.fade .modal-dialog {
+    transform: inherit;
+}
+.transparent {
+    color: transparent;
+}
+ul.default {
+    padding: 0px;
+    list-style-type: none;
+}
+ul.default li {
+    padding: 5px 0px;
+}

@@ -1,0 +1,17 @@
+<?php return [
+    "product_not_found" => "Product not found",
+    "product_installed" => "Product installed!",
+    "detail_info_product" => "The detail information of product!",
+    "register_buy_success" => "Sign up for a successful purchase!",
+    "list_product_buyed" => "List of products purchased!",
+    "serial_not_correct" => "Serial not correct!",
+    "product_sold" => "Products sold!",
+    "payment_error_product_payed" => "Payment error, the product has paid this debt!",
+    "name_required" => "Name product is required!",
+    "name_serial"        => "Serial product is required!",
+    "unique_serial"     => "Serial is unique!",
+    "not_is_image"     => "Not is image!",
+    "description_required"     => "Description is required!",
+    "avatar_required"     => "Avatar is required!",
+    "image_required"     => "Image is required!",
+];
