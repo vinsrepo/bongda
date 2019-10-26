@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 // use App\Helpers\Functions;
 use App\Http\Controllers\Controller;
-use App\Models\Body;
+use App\Models\PlayerList;
+use App\Models\ResultList;
+use App\Models\TeamFootball;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,7 +18,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = '';
+        $data = [];
+        $teamA = TeamFootball::find(1);
+        $teamB = TeamFootball::find(2);
+        $data['playerListA'] = PlayerList::where('team', $teamA->id)->get();
+        $data['playerListB'] = PlayerList::where('team', $teamB->id)->get();
+        $data['resultList'] = ResultList::all();
+        $data['teamFootball'] = TeamFootball::all();
 
         return view('frontend.pages.home.index', compact('data'));
     }
