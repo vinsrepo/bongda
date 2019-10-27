@@ -14,6 +14,7 @@
 // Route::get('/', function () {
     // return view('welcome');
 Route::get('/', 'Frontend\HomeController@index');
+Route::post('/detail-match', 'Frontend\ResultDetailController@detailMatch')->name('detailMatch');
 // });
 /*
  * CMS Login route
