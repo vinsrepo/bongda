@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Bóng đá Giao Thủy</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
@@ -22,8 +23,9 @@
                     </div>
                     <div class="col-md-2 col-sm-2 col-xs-12">
                         <div class="score-match">
-                            <h4 class="text-center">30:23</h4>
+                            <h4 class="text-center time_live">30:23</h4>
                             <h5 class="text-center">3-0</h5>
+                            <input type="hidden" name="match_id" class="match_id" value="1">
                         </div>
                     </div>
                     <div class="col-md-5 col-sm-5 col-xs-12">
@@ -32,17 +34,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="select-player col-xs-12">
+               {{--  <div class="select-player col-xs-12">
                     <h4 class="">Lựa chọn số áo cầu thủ ghi bàn</h4>
-                </div>
-                <div class="list-cau-thu">
-                    <div class="col-md-offset-2 col-md-4 col-sm-4 col-xs-12">
+                </div> --}}
+                <div class="list-cau-thu" style="width: 100%;float: left;">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="danh-sach-doi-a">
                             <div class="list-group">
                                 <div class="touch-number doi-a">
                                     <div class="" role="group" aria-label="Basic example">
                                         <div class="btn-group">
-                                            <input style="width: 100%" max="999" class="input-score text-center form-control-lg mb-2" id="code-a">
+                                            <input style="width: 100%" max="999" class="input-score text-center form-control-lg mb-2" id="code-a" placeholder="Điền số áo cầu thủ ghi bàn">
+                                            <input type="hidden" name="team_id" class="team_id" value="{{@$teamA->id}}">
                                         </div>
                                         <div class="btn-group">
                                             {{-- <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value + '1';">1</button> --}}
@@ -72,35 +75,35 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- @if($data['playerListA'])
-                                    @foreach($data['playerListA'] as $key => $val)
-                                        <div class="list-group-item col-sm-4">
-                                            <div class="player-detail" style="height: 200px;position: relative;">
-                                                <img style="width: 100%;height: 100%;object-fit: cover;position: relative;" src="https://www.gogoalshop.co/html/upload/item_img/201505/1/1143219625440b1d8a2.jpg" alt="">
-                                                <div class="" style="position: absolute;">
-                                                    {{@$val->name}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @endif --}}
                            </div>
                         </div>
                     </div>
-                   {{--  <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="thong-tin-chi-tiet">
                             <div class="list-group">
                                 Chi tiết
                             </div>
+                            <div class="details">
+                                @if(@$data['ResultDetail'])
+                                    @foreach(@$data['ResultDetail'] as $key => $item)
+                                        <div class="item">
+                                            <div>
+                                                {{@$item->note}} phút thứ {{@$item->time_takes_place}}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="danh-sach-doi-b">
                             <div class="list-group">
                                 <div class="touch-number doi-b">
                                     <div class="" role="group" aria-label="Basic example">
                                         <div class="btn-group">
-                                            <input style="width: 100%" max="999" class="input-score text-center form-control-lg mb-2" id="code-b">
+                                            <input style="width: 100%" max="999" class="input-score text-center form-control-lg mb-2" id="code-b" placeholder="Điền số áo cầu thủ ghi bàn">
+                                            <input type="hidden" name="team_id" class="team_id" value="{{@$teamB->id}}">
                                         </div>
                                         <div class="btn-group">
                                             {{-- <button type="button" class="btn btn-outline-secondary py-3" onclick="document.getElementById('code').value=document.getElementById('code').value + '1';">1</button> --}}
@@ -181,28 +184,40 @@
                     $('.touch-number.doi-b .btn-group.notify').removeClass('red');
                 });
 
-                $('.btn-click-result').on('click', function(){
+                $('.touch-number.doi-a .btn-click-result').on('click', function(){
                     var id = $(this).data('id');
+                    var player_id = $('.touch-number.doi-a .input-score').val();
+                    if (player_id == '') {
+                        alert("Điền số áo cầu thủ ghi bàn");
+                        return false;
+                    }
                     var type = '';
-                    if (id = 1) {
+                    if (id == 1) {
                         type = 1;
-                    } else if (id = 2) {
+                    } else if (id == 2) {
                         type = 2;
-                    } else if (id = 3) {
+                    } else if (id == 3) {
                         type = 3;
                     }
-                    data.type = type;
                     var data = {};
-                    alert(id, type);
-                    var url = '{{route('detailMatch')}}';
+                    data.type = type;
+                    data.player_id = player_id;
+                    data.team_id = $('.touch-number.doi-a .team_id').val();
+                    data.time_live = $('.time_live').text();
+                    data.match_id = $('.match_id').val();
                     $.ajax({
-                        url: url,
+                        url: '{{route('detailMatch')}}',
                         type: 'POST',
                         data: data,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         async: false,
                         success: function (res) {
                             alert('Cập nhật thành công!');
-                            window.location.href = '/';
+                            setTimeout(function(){
+                                window.location.href = '/';
+                            }, 1000);
                         }
                     });
                 });

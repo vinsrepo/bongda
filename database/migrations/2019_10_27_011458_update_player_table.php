@@ -14,7 +14,7 @@ class UpdatePlayerTable extends Migration
     public function up()
     {
         Schema::table('player_list', function (Blueprint $table) {
-            $tabel->string('position')->nullable()->comment('Vị trí cầu thủ')->after('number');
+            $table->string('position')->nullable()->comment('Vị trí cầu thủ')->after('number');
         });
 
         Schema::create('result_detail', function (Blueprint $table) {
@@ -27,7 +27,7 @@ class UpdatePlayerTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('football_team', function (Blueprint $table) {
+        Schema::table('football_team', function (Blueprint $table) {
             $table->integer('group')->nullable()->comment('Đội thuộc bảng đấu')->after('name');
         });
     }

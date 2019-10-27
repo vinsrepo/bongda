@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PlayerList;
 use App\Models\ResultList;
 use App\Models\TeamFootball;
+use App\Models\ResultDetail;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,7 +26,8 @@ class HomeController extends Controller
         $data['playerListB'] = PlayerList::where('team', $teamB->id)->get();
         $data['resultList'] = ResultList::all();
         $data['teamFootball'] = TeamFootball::all();
+        $data['ResultDetail'] = ResultDetail::orderBy('id', 'desc')->where('match_id', 1)->get();
 
-        return view('frontend.pages.home.index', compact('data'));
+        return view('frontend.pages.home.index', compact('data', 'teamA', 'teamB'));
     }
 }
