@@ -184,11 +184,14 @@
                     $('.touch-number.doi-b .btn-group.notify').removeClass('red');
                 });
 
-                $('.touch-number.doi-a .btn-click-result').on('click', function(){
+                $('.btn-click-result').on('click', function(){
+                    var parentA = $(this).parent('.touch-number');
+                    var parentB = $(this).closest('.touch-number.doi-b');
+                    console.log(parentA, parentB);
                     var id = $(this).data('id');
                     var player_id = $('.touch-number.doi-a .input-score').val();
                     if (player_id == '') {
-                        alert("Điền số áo cầu thủ ghi bàn");
+                        alert("Điền số áo cầu thủ thực hiện");
                         return false;
                     }
                     var type = '';
@@ -217,7 +220,7 @@
                             alert('Cập nhật thành công!');
                             setTimeout(function(){
                                 window.location.href = '/';
-                            }, 1000);
+                            }, 500);
                         }
                     });
                 });
