@@ -13,8 +13,12 @@
 
 // Route::get('/', function () {
     // return view('welcome');
-Route::get('/', 'Frontend\HomeController@index');
-Route::post('/detail-match', 'Frontend\ResultDetailController@detailMatch')->name('detailMatch');
+Route::get('/', 'Frontend\HomeController@index')->name('home');
+Route::get('/detail-match/{id}', 'Frontend\ResultDetailController@detailMatch')->name('detailMatch');
+Route::get('/live-match/{id}', 'Frontend\ResultDetailController@liveMatch')->name('liveMatch');
+Route::group(['prefix' => 'ajax'], function () {
+	Route::post('/detail-match', 'Frontend\AjaxController@ajaxDetailMatch')->name('ajaxDetailMatch');
+});
 // });
 /*
  * CMS Login route
